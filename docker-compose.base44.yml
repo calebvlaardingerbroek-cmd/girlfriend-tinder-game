@@ -1,0 +1,42 @@
+# Base44 dev environment for the 100 Girlfriends static site.
+#
+# The project is a plain HTML/CSS/JS site (index.html + style.css + script.js),
+# so no backend, database or credentials are involved. We serve the cloned source
+# through a static dev server with file watching, so edits hot-reload the preview.
+services:
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    # Serve the bind-mounted source and live-reload on any file change.
+    command:
+      - sh
+      - -ec
+      - >-
+        exec npx --yes browser-sync start
+        --server /app
+        --files "/app/*.html,/app/*.css,/app/*.js"
+        --host 0.0.0.0
+        --port 3000
+        --no-ui
+        --no-open
+        --no-notify
+        --no-ghost-mode
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      # Keep the npx package cache across restarts so boots stay fast.
+      - npm-cache:/root/.npm
+    environment:
+      # Bare passthrough: the platform supplies the value (1 in the sandbox).
+      - BASE44_PREVIEW_MODE
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3000/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 20s
+    restart: on-failure
+
+volumes:
+  npm-cache:
