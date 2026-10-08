@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>100 Girlfriends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Dating Sim</p>
+          <h1>100 Girlfriends</h1>
+        </div>
+        <button id="resetBtn" class="secondary-btn">Reset</button>
+      </header>
+
+      <main class="game-area">
+        <section class="deck-panel">
+          <div id="cardStack" class="card-stack" aria-live="polite"></div>
+
+          <div class="action-row">
+            <button id="passBtn" class="action-btn pass-btn" aria-label="Pass on this profile">
+              <span>✕</span>
+              Pass
+            </button>
+            <button id="likeBtn" class="action-btn like-btn" aria-label="Like this profile">
+              <span>♥</span>
+              Like
+            </button>
+          </div>
+        </section>
+
+        <aside class="favorites-panel">
+          <div class="favorites-header">
+            <h2>Your Picks</h2>
+            <span id="likedCount" class="badge">0</span>
+          </div>
+          <ul id="favoritesList" class="favorites-list"></ul>
+        </aside>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
