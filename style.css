@@ -125,16 +125,32 @@ h1 {
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
+.card-photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.08) brightness(0.72);
+  transform: scale(1.08);
+  z-index: 0;
+}
+
 .profile-card::before {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+  z-index: 1;
 }
 
 .profile-card > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+.profile-content {
+  position: relative;
+  z-index: 2;
 }
 
 .avatar {
@@ -294,10 +310,12 @@ h1 {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #ffc2d8, #8c7dff);
   color: white;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 18px rgba(255,255,255,0.2);
 }
 
 .favorite-name {
@@ -327,3 +345,4 @@ h1 {
     gap: 12px;
   }
 }
+

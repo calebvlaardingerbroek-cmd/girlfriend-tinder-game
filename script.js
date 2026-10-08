@@ -43,6 +43,33 @@ const colorThemes = [
   "linear-gradient(135deg, #86efac, #22c55e)"
 ];
 
+const beachPhotos = [
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1524503033410-cd2e2c2d7176?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1546961329-78bef0414d7c?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80"
+];
+
 function shuffle(array) {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -63,6 +90,7 @@ function makeProfiles() {
     const hobby = hobbyPool[(i * 5 + 1) % hobbyPool.length];
     const initials = name.slice(0, 2).toUpperCase();
     const color = colorThemes[i % colorThemes.length];
+    const image = beachPhotos[i % beachPhotos.length];
 
     profiles.push({
       id: i + 1,
@@ -73,7 +101,8 @@ function makeProfiles() {
       hobby,
       bio: `Loves ${hobby}, has a ${vibe.toLowerCase()} vibe, and always knows how to make a room feel more fun. Looking for someone who enjoys good conversation and spontaneous adventures.`,
       initials,
-      color
+      color,
+      image
     });
   }
 
@@ -105,7 +134,7 @@ function renderFavorites() {
     .map(
       (profile) => `
         <li class="favorite-item">
-          <div class="favorite-avatar" style="background: ${profile.color};">${profile.initials}</div>
+          <div class="favorite-avatar" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.18), rgba(0,0,0,0.12)), url('${profile.image}'); background-size: cover; background-position: center;">${profile.initials}</div>
           <div>
             <p class="favorite-name">${profile.name}, ${profile.age}</p>
             <p class="favorite-meta">${profile.city} • ${profile.vibe}</p>
@@ -122,11 +151,14 @@ function renderCurrentProfile() {
   if (visibleProfiles.length === 0) {
     cardStack.innerHTML = `
       <div class="profile-card" style="--card-gradient: linear-gradient(135deg, #7c5cff, #ff4d8d);">
-        <div class="profile-meta">
-          <h2 class="profile-name">Game Over</h2>
+        <div class="card-photo" style="background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80');"></div>
+        <div class="profile-content">
+          <div class="profile-meta">
+            <h2 class="profile-name">Game Over</h2>
+          </div>
+          <p class="profile-city">You reviewed all 100 profiles.</p>
+          <p class="profile-bio">You picked ${state.liked.length} favorite${state.liked.length === 1 ? "" : "s"}. Reset and try again.</p>
         </div>
-        <p class="profile-city">You reviewed all 100 profiles.</p>
-        <p class="profile-bio">You picked ${state.liked.length} favorite${state.liked.length === 1 ? "" : "s"}. Reset and try again.</p>
       </div>
     `;
     return;
@@ -149,8 +181,9 @@ function renderCurrentProfile() {
           "
           data-id="${profile.id}"
         >
-          <div class="avatar">${profile.initials}</div>
-          <div>
+          <div class="card-photo" style="background-image: url('${profile.image}');"></div>
+          <div class="profile-content">
+            <div class="avatar">${profile.initials}</div>
             <div class="profile-meta">
               <h2 class="profile-name">${profile.name}</h2>
               <span class="profile-age">${profile.age}</span>
@@ -211,4 +244,5 @@ window.addEventListener("keydown", (event) => {
 if (state.currentIndex >= state.profiles.length) {
   renderCurrentProfile();
 }
+
 
